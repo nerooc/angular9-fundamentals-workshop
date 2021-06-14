@@ -1,36 +1,42 @@
 <div class="courses-containers">
-    <div class="courses-list">
-        <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-            Course List
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+  <div class="courses-list">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Course List </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item
+            *ngFor="let course of courses"
+            (click)="selectCourse(course)"
+          >
+            <h3 matLine>{{ course.title }}</h3>
+            <p matLine>{{ course.description }}</p>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteCourse(course); $event.stopImmediatePropagation()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-            <!-- COURSES LIST -->
-
-        </mat-card-content>
-        </mat-card>
-    </div>
-
-    <div class="course-details">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>
-                    Select Course
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-            
-            <!-- COURSE FORM -->
-
-            </mat-card-content>
-            <mat-card-actions>
-
-            <!-- COURSE ACTIONS -->
-
-            </mat-card-actions>
-        </mat-card>
-    </div>
+  <div class="course-details">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Select a course</mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="selectedCourse; else elseBlock">
+        <pre>  {{ selectedCourse | json }} </pre>
+      </mat-card-content>
+      <ng-template #elseBlock> No course selected! </ng-template>
+      <mat-card-actions>
+        <!-- COURSE ACTIONS -->
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
