@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { CoursesService } from '../shared/services/courses.service';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
   // CHALLENGE
@@ -11,28 +12,13 @@ export class CoursesComponent implements OnInit {
   // STEP 02: Updaet the form to show favorite
 
   selectedCourse = null;
+  courses = null;
 
-  courses = [
-    {
-      id: 1,
-      title: 'Angular 9 Fundamentals',
-      description: 'Learn the fundamentals of Angular 9',
-      percentComplete: 26,
-      favorite: true
-    },
-    {
-      id: 2,
-      title: 'JavaScript The Really REALLY HARD PARTS',
-      description: 'Worship Will Sentance',
-      percentComplete: 50,
-      favorite: true
-    }
-  ];
-
-  constructor() { }
+  constructor(private coursesService: CoursesService) {}
 
   ngOnInit(): void {
     this.resetSelectedCourse();
+    this.loadCourses();
   }
 
   resetSelectedCourse() {
@@ -41,7 +27,7 @@ export class CoursesComponent implements OnInit {
       title: '',
       description: '',
       percentComplete: 0,
-      favorite: false
+      favorite: false,
     };
 
     this.selectedCourse = emptyCourse;
@@ -51,12 +37,34 @@ export class CoursesComponent implements OnInit {
     this.selectedCourse = course;
   }
 
-  saveCourse() {
-    console.log('SAVE SOURCE!');
+  refreshCourses() {
+    this.resetSelectedCourse();
+    this.loadCourses();
+  }
+
+  saveCourse(course) {
+    if (course.id) {
+      this.coursesService.update(course).subscribe((result) => {
+        this.refreshCourses();
+        console.log('COURSE UPDATED!', result);
+      });
+    } else {
+      this.coursesService.create(course).subscribe((result) => {
+        this.refreshCourses();
+        console.log('COURSE CREATED!', result);
+      });
+    }
   }
 
   deleteCourse(courseId) {
-    console.log('COURSE DELETED!', courseId);
+    this.coursesService.delete(courseId).subscribe((response) => {
+      this.refreshCourses();
+      console.log(`COURSE ${courseId} DELETED`, response);
+    });
+  }
+
+  loadCourses() {
+    this.coursesService.all().subscribe((courses) => (this.courses = courses));
   }
 
   cancel() {
