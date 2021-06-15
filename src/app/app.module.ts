@@ -9,6 +9,7 @@ import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses.component';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -16,15 +17,12 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CoursesComponent
-  ],
+  declarations: [AppComponent, HomeComponent, CoursesComponent],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

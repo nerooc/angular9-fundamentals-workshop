@@ -40,5 +40,27 @@ export class CoursesComponent implements OnInit {
     this.courses.splice(idx, 1);
   }
 
-  ngOnInit(): void {}
+  saveCourse() {
+    console.log('SAVE SOURCE!');
+  }
+
+  cancel() {
+    this.resetSelectedCourse();
+  }
+
+  resetSelectedCourse() {
+    const emptyCourse = {
+      id: null,
+      title: '',
+      description: '',
+      percentComplete: 0,
+      favorite: false,
+    };
+
+    this.selectCourse(emptyCourse);
+  }
+
+  ngOnInit(): void {
+    this.resetSelectedCourse();
+  }
 }
